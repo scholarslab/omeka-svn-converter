@@ -7,7 +7,7 @@ REPO_DIRECTORY = './repos'
 GITHUB_ACCOUNT_NAME = ''
 GITHUB_ACCOUNT_TOKEN = ''
 
-repos = %w[https://addons.omeka.org/svn/plugins/NeatlineFeatures/  https://addons.omeka.org/svn/plugins/NeatlineMaps/  https://addons.omeka.org/svn/plugins/SolrSearch/ https://addons.omeka.org/svn/plugins/TeiDisplay/] # https://addons.omeka.org/svn/plugins/VraCoreElementSet/]
+repos = %w[https://addons.omeka.org/svn/plugins/EadImporter/ https://addons.omeka.org/svn/plugins/NeatlineFeatures/  https://addons.omeka.org/svn/plugins/NeatlineMaps/  https://addons.omeka.org/svn/plugins/SolrSearch/ https://addons.omeka.org/svn/plugins/TeiDisplay/] # https://addons.omeka.org/svn/plugins/VraCoreElementSet/]
 
 namespace :svn do
 
