@@ -12,4 +12,3 @@ Links:
 * [Github Trac Ticket Importer](https://github.com/adamcik/github-trac-ticket-import)
 * [Mechanize](http://mechanize.rubyforge.org/mechanize/)
 * [curb](https://github.com/taf2/curb)
-

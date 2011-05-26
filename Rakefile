@@ -30,7 +30,6 @@ namespace :svn do
       `cd #{path_to_repo} && git commit -m 'Added new README.md file scraped from old wikis'`
       `cd #{path_to_repo} &&  git push origin master`
       `python convert.py #{GITHUB_ACCOUNT_NAME} #{plugin_name} #{GITHUG_ACCOUNT_TOKEN}`
-      break
     end
   end
 
