@@ -1,13 +1,10 @@
-require 'rubygems'
-require 'curb'
-
 task :default => 'svn:migrate'
 
 REPO_DIRECTORY = './repos'
 GITHUB_ACCOUNT_NAME = ''
 GITHUB_ACCOUNT_TOKEN = ''
 
-repos = %w[https://addons.omeka.org/svn/plugins/EadImporter/ https://addons.omeka.org/svn/plugins/NeatlineFeatures/  https://addons.omeka.org/svn/plugins/NeatlineMaps/  https://addons.omeka.org/svn/plugins/SolrSearch/ https://addons.omeka.org/svn/plugins/TeiDisplay/] # https://addons.omeka.org/svn/plugins/VraCoreElementSet/]
+repos = %w[https://addons.omeka.org/svn/plugins/EadImporter/ https://addons.omeka.org/svn/plugins/NeatlineFeatures/  https://addons.omeka.org/svn/plugins/NeatlineMaps/  https://addons.omeka.org/svn/plugins/SolrSearch/ https://addons.omeka.org/svn/plugins/TeiDisplay/ https://addons.omeka.org/svn/plugins/VraCoreElementSet/]
 
 namespace :svn do
 
@@ -31,6 +28,8 @@ namespace :svn do
       `cd #{path_to_repo} && git commit -m 'Added new README.md file scraped from old wikis'`
       `cd #{path_to_repo} && git push origin master`
       `python convert.py #{GITHUB_ACCOUNT_NAME} #{plugin_name} #{GITHUB_ACCOUNT_TOKEN}`
+      sleep 60 # Necessary to keep script from exceeding the GitHub API's rate limiting.
+      break
     end
   end
 
