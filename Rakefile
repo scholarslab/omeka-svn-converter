@@ -70,7 +70,6 @@ namespace :svn do
       `cd #{path_to_repo} && git push origin master`
       `python convert.py #{CONFIG['settings']['github_account_name']} #{plugin_name} #{CONFIG['settings']['github_account_token']}`
       sleep CONFIG['settings']['api_wait'] 
-      break
     end
   end
 
