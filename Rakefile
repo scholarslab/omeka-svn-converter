@@ -1,12 +1,41 @@
+require 'nokogiri'
+require 'open-uri'
+require 'mcbean'
+require 'yaml'
+
+# 
+# This rake script helps automate the migration of SVN repositories to Github
+#
+# Author:: Scholars' Lab
+# Copyright:: Copyright (c) 2011 The Board and Visitors of the University of Virginia
+# License:: http://www.apache.org/licenses/LICENSE-2.0.html Apache 2 License
+
 task :default => 'svn:migrate'
 
-REPO_DIRECTORY = './repos'
-GITHUB_ACCOUNT_NAME = ''
-GITHUB_ACCOUNT_TOKEN = ''
+config = YAML.load(File.read('config.yml'))
 
-repos = %w[https://addons.omeka.org/svn/plugins/EadImporter/ https://addons.omeka.org/svn/plugins/NeatlineFeatures/  https://addons.omeka.org/svn/plugins/NeatlineMaps/  https://addons.omeka.org/svn/plugins/SolrSearch/ https://addons.omeka.org/svn/plugins/TeiDisplay/ https://addons.omeka.org/svn/plugins/VraCoreElementSet/]
+# Use the McBean gem to convert HTML documentation to Markdown
+def generate_readme(plugin_name)
+
+  page = Nokogiri::HTML(open(DOCUMENTATION_BASE + plugin_name))
+
+  content_div = page.css('#primary').to_html
+
+  markdown = McBean.fragment(content_div).to_markdown
+
+  File.open('README.md', 'w') do |file|
+    file.puts markdown
+  end
+
+end
 
 namespace :svn do
+
+
+  desc 'List configuration items'
+  task :config do
+    puts config.inspect
+  end
 
   desc 'Create a directory for the repositories'
   task :setup do
@@ -19,7 +48,8 @@ namespace :svn do
       `cd #{REPO_DIRECTORY} && git svn clone -s #{repo}`
       plugin_name = repo[37..-2] # Slice the name out of the plugin out of the URL
       path_to_repo = "#{REPO_DIRECTORY}/#{plugin_name}"
-      `ruby readme_scrape.rb #{plugin_name}`
+      #`ruby readme_scrape.rb #{plugin_name}`
+      generate_readme(plugin_name)
       `mv README.md #{REPO_DIRECTORY}/#{plugin_name}/README.md`
       `cd #{path_to_repo} && curl -F 'login=#{GITHUB_ACCOUNT_NAME}' -F 'token=#{GITHUB_ACCOUNT_TOKEN}'\
            https://github.com/api/v2/yaml/repos/create -F name=#{plugin_name}`
@@ -32,5 +62,7 @@ namespace :svn do
       break
     end
   end
+
+
 
 end
