@@ -10,3 +10,7 @@ Edit the config.yml
 
 Github_api_token on [Github](https://github.com/account/admin) (under
 Account Admin).
+
+Run the migration:
+
+    rake svn:migrate
