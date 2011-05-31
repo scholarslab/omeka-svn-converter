@@ -17,9 +17,9 @@ GitHub Issues platform.
 Accont Settings > Account Admin.
 - From the omeka-svn-converter folder, run the migration with:
 
-      rake svn:migrate
+        rake svn:migrate
 
 - To wipe out the "repos" directory created by the script and start
   over, use the clean task:
 
-      rake svn:clean
+        rake svn:clean
