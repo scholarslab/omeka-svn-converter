@@ -5,6 +5,7 @@ settings:
   github_account_name: ''
   github_account_token: ''
   documentation_base: 'http://omeka.org/codex/Plugins/'
+  api_wait: 60
   repos:
     - https://addons.omeka.org/svn/plugins/EadImporter/
     - https://addons.omeka.org/svn/plugins/NeatlineFeatures/ 
