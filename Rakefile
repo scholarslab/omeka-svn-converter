@@ -61,14 +61,14 @@ namespace :svn do
       path_to_repo = "#{CONFIG['settings']['repo_directory']}/#{plugin_name}"
       generate_readme(plugin_name)
       `mv README.md #{CONFIG['settings']['repo_directory']}/#{plugin_name}/README.md`
-      `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}'\
+      `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}' \
            https://github.com/api/v2/yaml/repos/create -F name=#{plugin_name}`
       `cd #{path_to_repo} && git remote add origin git@github.com:#{CONFIG['settings']['github_account_name']}/#{plugin_name}.git`
       `cd #{path_to_repo} && git add .`
       `cd #{path_to_repo} && git commit -m 'Added new README.md file scraped from old wikis'`
       `cd #{path_to_repo} && git push origin master`
       `python convert.py #{CONFIG['settings']['github_account_name']} #{plugin_name} #{CONFIG['settings']['github_account_token']}`
-      break
+      sleep CONFIG['settings']['api_wait']
     end
   end
 
