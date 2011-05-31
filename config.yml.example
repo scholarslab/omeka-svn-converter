@@ -2,8 +2,8 @@
 
 settings:
   repo_directory: './repos'
-  github_account_name: ''
-  github_account_token: ''
+  github_account_name: 'clured'
+  github_account_token: 'e0db16b9b2cfab7ee12e23d22bac9ad5'
   documentation_base: 'http://omeka.org/codex/Plugins/'
   api_wait: 60
   repos:

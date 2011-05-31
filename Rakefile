@@ -58,8 +58,7 @@ namespace :svn do
     CONFIG['settings']['repos'].each do |repo|
       `cd #{CONFIG['settings']['repo_directory']} && git svn clone -s #{repo}`
       plugin_name = repo[37..-2] # Slice the name out of the plugin out of the URL
-      path_to_repo = "#{CONFIG['settings']['repo_directory']}}/#{plugin_name}"
-      #`ruby readme_scrape.rb #{plugin_name}`
+      path_to_repo = "#{CONFIG['settings']['repo_directory']}/#{plugin_name}"
       generate_readme(plugin_name)
       `mv README.md #{CONFIG['settings']['repo_directory']}/#{plugin_name}/README.md`
       `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}'\
@@ -69,7 +68,7 @@ namespace :svn do
       `cd #{path_to_repo} && git commit -m 'Added new README.md file scraped from old wikis'`
       `cd #{path_to_repo} && git push origin master`
       `python convert.py #{CONFIG['settings']['github_account_name']} #{plugin_name} #{CONFIG['settings']['github_account_token']}`
-      sleep CONFIG['settings']['api_wait'] 
+      break
     end
   end
 
