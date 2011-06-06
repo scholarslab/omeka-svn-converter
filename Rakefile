@@ -56,19 +56,36 @@ namespace :svn do
   desc 'Migrate the repositories'
   task :migrate => [:setup]  do
     CONFIG['settings']['repos'].each do |repo|
+
+      # Clone the repo from SVN.
       `cd #{CONFIG['settings']['repo_directory']} && git svn clone -s #{repo}`
-      plugin_name = repo[37..-2] # Slice the name out of the plugin out of the URL
+
+      # Slide out the name of the plugin, set path.
+      plugin_name = repo[37..-2]
       path_to_repo = "#{CONFIG['settings']['repo_directory']}/#{plugin_name}"
+
+      # Scrape the old readme and convert to .md format, move
+      # new README.md file into the cloned plugin directory.
       generate_readme(plugin_name)
       `mv README.md #{CONFIG['settings']['repo_directory']}/#{plugin_name}/README.md`
+
+      # Create the new repo on github.
       `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}' \
            https://github.com/api/v2/yaml/repos/create -F name=#{plugin_name}`
+
+      # Add origin, add/commit, push.
       `cd #{path_to_repo} && git remote add origin git@github.com:#{CONFIG['settings']['github_account_name']}/#{plugin_name}.git`
       `cd #{path_to_repo} && git add .`
       `cd #{path_to_repo} && git commit -m 'Added new README.md file scraped from old wikis'`
       `cd #{path_to_repo} && git push origin master`
+
+      # Run the python script to migrate the Trac tickets to Github issues.
       `python convert.py #{CONFIG['settings']['github_account_name']} #{plugin_name} #{CONFIG['settings']['github_account_token']}`
+
+      # Pause at the end of the loop, as as to avoid overloading the API.
       sleep CONFIG['settings']['api_wait']
+
+      break;
     end
   end
 
