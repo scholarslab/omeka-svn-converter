@@ -6,13 +6,19 @@ import csv
 import json
 import urllib
 
-USERNAME = sys.argv[1]
-ORGNAME = sys.argv[2]
-PROJECT = sys.argv[3]
-AUTH_TOKEN = sys.argv[4]
-TRAC_URL = 'https://addons.omeka.org/trac/report/1?format=csv'
+if len(sys.argv) == 5:
+    USERNAME = sys.argv[1]
+    ORGNAME = sys.argv[2]
+    PROJECT = sys.argv[3]
+    AUTH_TOKEN = sys.argv[4]
 
-print USERNAME, PROJECT, AUTH_TOKEN
+else:
+    USERNAME = sys.argv[1]
+    ORGNAME = ''
+    PROJECT = sys.argv[2]
+    AUTH_TOKEN = sys.argv[3]
+
+TRAC_URL = 'https://addons.omeka.org/trac/report/1?format=csv'
 
 if (ORGNAME == ''):
     ORGNAME = USERNAME

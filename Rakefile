@@ -55,6 +55,7 @@ namespace :svn do
 
   desc 'Migrate the repositories'
   task :migrate => [:setup]  do
+
     CONFIG['settings']['repos'].each do |repo|
 
       # Clone the repo from SVN.
@@ -70,11 +71,20 @@ namespace :svn do
       `mv README.md #{CONFIG['settings']['repo_directory']}/#{plugin_name}/README.md`
 
       # Create the new repo on github.
-      `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}' \
-           https://github.com/api/v2/yaml/repos/create -F name=#{CONFIG['settings']['github_organization_name']}/#{plugin_name}`
+      if CONFIG['settings']['github_organization_name'] != ''
+        `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}' \
+             https://github.com/api/v2/yaml/repos/create -F name=#{CONFIG['settings']['github_organization_name']}/#{plugin_name}`
+      else
+        `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}' \
+             https://github.com/api/v2/yaml/repos/create -F name=#{plugin_name}`
+      end
 
       # Add origin, add/commit, push.
-      `cd #{path_to_repo} && git remote add origin git@github.com:#{CONFIG['settings']['github_organization_name']}/#{plugin_name}.git`
+      if CONFIG['settings']['github_organization_name'] != ''
+        `cd #{path_to_repo} && git remote add origin git@github.com:#{CONFIG['settings']['github_organization_name']}/#{plugin_name}.git`
+      else
+        `cd #{path_to_repo} && git remote add origin git@github.com:#{CONFIG['settings']['github_account_name']}/#{plugin_name}.git`
+      end
       `cd #{path_to_repo} && git add .`
       `cd #{path_to_repo} && git commit -m 'Added new README.md file scraped from old wikis'`
       `cd #{path_to_repo} && git push origin master`
