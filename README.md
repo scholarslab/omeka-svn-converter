@@ -1,4 +1,4 @@
-# Omeka SVN->GitHub Migration
+# Omeka SVN -> GitHub Migration
 
 This rake script automates the process of moving Omeka plugin
 repositories from SVN to GitHub. The script:
