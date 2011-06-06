@@ -4,6 +4,7 @@ settings:
   repo_directory: './repos'
   github_account_name: ''
   github_account_token: ''
+  github_organization_name: ''
   documentation_base: 'http://omeka.org/codex/Plugins/'
   api_wait: 60
   repos:
