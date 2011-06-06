@@ -12,13 +12,13 @@ repositories from SVN to GitHub. The script:
 
 - Change config.yml.example -> config.yml;
 - Enter values for empty github account name, account token, and
-  organization name.
+  organization name;
 - Add the URLs for each of the repos;
 - To do the migration, use:
-      rake svn:migrate
+        rake svn:migrate
 - To scrub out the generated directory structure and start over (useful
   if the GitHub API hangs up, or something else goes wrong), use:
-      rake svn:clean
+        rake svn:clean
 
 ## Organizations vs. User Accounts
 
