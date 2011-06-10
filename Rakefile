@@ -73,7 +73,7 @@ namespace :svn do
       # Create the new repo on github.
       if CONFIG['settings']['github_organization_name'] != ''
         `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}' \
-             https://github.com/api/v2/yaml/repos/create -F name=#{CONFIG['settings']['github_organization_name']}/#{plugin_name}`
+             https://github.com/api/v2/yaml/repos/create -F name=#{CONFIG['settings']['github_organization_name']}/#{plugin_name} -k`
       else
         `cd #{path_to_repo} && curl -F 'login=#{CONFIG['settings']['github_account_name']}' -F 'token=#{CONFIG['settings']['github_account_token']}' \
              https://github.com/api/v2/yaml/repos/create -F name=#{plugin_name}`
