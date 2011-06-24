@@ -20,6 +20,6 @@ if the GitHub API hangs up, or something else goes wrong), use:
 ## Organizations vs. User Accounts
 If the github organization name parameter is set in the config.yml file,
 the rake script will migrate the repository to the organization,
-assuming the supplied github user account has access privileges. If the
+assuming the github user account has access privileges. If the
 organization name is left blank, the script will migrate the
 repository directly to the individual user account.
